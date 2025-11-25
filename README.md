@@ -1,3 +1,6 @@
+# Documentation needs to be updated
+## PDF Report on this project is provided [in the project section of my LinkedIn profile](https://www.linkedin.com/in/fernando-rojaschoco/)
+
 Skylimit - 2D Endless Jumper Game
 Skylimit is a 2D endless jumper game developed using the Simple and Fast Multimedia Library (SFML) and following the Entities, Components, and Systems (ECS) architecture. The game revolves around a player navigating an endless vertical environment, jumping from platform to platform while avoiding obstacles and collecting power-ups. The architecture ensures a clean and modular design, making it easy to manage game entities and their behaviors.
 
