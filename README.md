@@ -1,240 +1,106 @@
 # Documentation needs to be updated
 ## PDF Report on this project (which includes demonstrations) is provided [in the project section of my LinkedIn profile](https://www.linkedin.com/in/fernando-rojaschoco/)
+## 🚀 Skylimit: An Endless 2D Pixel-Art Jumper
 
-Skylimit - 2D Endless Jumper Game
-Skylimit is a 2D endless jumper game developed using the Simple and Fast Multimedia Library (SFML) and following the Entities, Components, and Systems (ECS) architecture. The game revolves around a player navigating an endless vertical environment, jumping from platform to platform while avoiding obstacles and collecting power-ups. The architecture ensures a clean and modular design, making it easy to manage game entities and their behaviors.
+Skylimit is a challenging and engaging 2D Pixel-Art endless jumper game where players must continuously jump from platform to platform, ascending to achieve the highest possible score. Inspired by popular titles like *Doodle Jump*, the game offers a smooth and responsive gameplay experience through performance optimization in C++.
 
-This documentation provides detailed descriptions of the main files and functions within the Skylimit project, including key classes, their members, and methods. It serves as a guide for developers to understand the structure and functionality of the game, facilitating further development and maintenance.
+---
 
-Action.h
-Summary
-The Action class handles keyboard inputs in the game by storing the name of the action (e.g., "Move right") and whether the action is beginning or ending.
+## ✨ Key Features
 
-Members
-std::string m_name: Stores the name of the action.
-std::string m_type: Stores whether the action is beginning or ending.
+* **Endless Jumper Gameplay:** Players control a character that auto-jumps, soaring over procedurally generated platforms while avoiding obstacles.
+* **Progressive Difficulty:** The challenge increases as the player advances, with features like progressively spaced platforms and the introduction of moving and spiked platforms.
+* **Entity-Component System (ECS):** The game is built using the **ECS architecture** for a highly modular, efficient, and easily maintainable codebase, leveraging **composition over inheritance**.
+* **C++ and SFML:** Developed in **C++** using the **Simple and Fast Multimedia Library (SFML)** for graphics, audio, and input handling, ensuring fast execution speed and responsive gameplay.
+* **Fluid Camera Movement:** Utilizes **Linear Interpolation** (Lerp) to smooth out camera transitions, which slowly approaches a target position to create a fluid, non-static feel.
+* **Parallax Background:** Implements a **vertical parallax effect** using multiple background layers moving at varying speeds to create an illusion of depth in the 2D environment.
 
-Methods
-Action(): Default constructor.
-Action(const std::string& name, const std::string& type): Constructor that sets the name and type of the action.
-const std::string& name() const: Method to get the name of the action.
-const std::string& type() const: Method to get the type of the action.
+---
 
-Animation.h
-Summary
-The Animation class stores all the information related to animations in the game.
+## 💻 Technical Architecture
 
-Members
-sf::Sprite m_sprite: A rectangle with an associated texture.
-size_t m_frameCount: Counts the number of frames in a sprite.
-size_t m_currentFrame: The current animation frame.
-size_t m_speed: The speed at which the frames refresh.
-Vec2 m_size: The size of the sprite.
-std::string m_name: The name of the animation.
+The core architecture of Skylimit is based on the **Entity-Component System (ECS)** pattern, separating object identity, data, and logic.
 
-Methods
-Animation(const std::string& name, const sf::Texture& t, size_t frameCount, size_t speed): Constructor for moving entities.
-Animation(const std::string& name, const sf::Texture& t): Constructor for static entities.
-Animation(): Default constructor.
-void update(): Advances to the next animation frame according to the speed.
-std::string& getName(): Method to get the name of the animation.
-Vec2& getSize(): Method to get the size of the animation.
-sf::Sprite& getSprite(): Method to get the sprite of the animation.
+### Key Classes
 
-Assets.h
-Summary
-The Assets class stores all game assets, including fonts, backgrounds, textures, sounds, animations, etc.
+The system is composed of several key C++ classes:
 
-Members
-AnimationsMap m_animations
-Backgrounds m_backgrounds
-Textures m_textures
-SoundBuffers m_soundBuffers
-Fonts m_fonts
-Musics m_musics
-Sounds m_sounds
+| Class Name | Purpose |
+| :--- | :--- |
+| **GameEngine** | The central part of the code; runs assets, renders windows, and manages game state. |
+| **EntityManager** | Handles all **Entity** creation, deletion, modification, and updates. |
+| **Entity** | Represents a general-purpose object in the game. |
+| **Component** | The base class for defining specific aspects of an Entity. |
+| **Assets** | Manages a map of all game components that can be perceived, such as animations, textures, sounds, and fonts. |
+| **Scene** | Manipulates different scenes in the game (e.g., updates, renders, sets dimensions). |
+| **Vec2** | Represents a two-dimensional vector used for physics calculations like collisions, speed, and height. |
+| **Action** | Takes keyboard input (simple numbers from SFML) and assigns an action name and state (starting or ending). |
 
-Methods
-~Assets(): Destructor.
-void addTexture(const std::string& name, const std::string& path).
-void addSoundBuffer(const std::string& name, const std::string& path).
-void addFont(const std::string& name, const std::string& path).
-void addAnimation(const std::string& name, const Animation & animation).
-void addBackground(const int name, const int index2, const sf::Texture&).
-void addMusic(const std::string& name, const std::string& path).
-sf::Texture& getTexture(const std::string& name).
-sf::SoundBuffer& getSoundBuffer(const std::string& name).
-sf::Sound& getSound(const std::string& name).
-sf::Font& getFont(const std::string& name).
-Animation& getAnimation(const std::string& name).
-Background& getBackground(const int name).
-sf::Music* getMusic(const std::string& name).
-void loadFromFile(const std::string& path): Retrieves and stores all assets from a file.
+### Component Classes
 
-Background.h
-Summary
-The Background class defines the backgrounds and their different layers.
+Components are derived from the base `Component` class and characterize an entity's aspects.
 
-Members
-std::vector<sf::Sprite> m_layers: Vector that stores the background sprites.
-int m_length: Number of layers in a background.
+| Component Name | Functionality |
+| :--- | :--- |
+| **CTransform** | Manages everything related to an entity's position or velocity. |
+| **CBoundingBox** | Defines the size and **hitbox** of an object, crucial for collision detection. |
+| **CGravity** | Defines how strongly an entity is affected by gravity. |
+| **CAnimation** | Defines if an entity has a looping animation (e.g., player movement). |
+| **CInput** | Establishes the inputs an entity can receive (e.g., moving right/left for the player). |
+| **CKill** | Defines if an entity can kill the player (e.g., spiked logs). |
+| **CMove** | Defines an entity that is capable of movement (e.g., moving platforms/logs). |
+| **CState** | Defines the current state of the entity (e.g., jumping, falling, moving). |
 
-Methods
-void addLayer(const sf::Texture& t): Adds a layer to form the background.
-Background(): Default constructor.
-size_t getLength(): Gets the number of layers.
-std::vector<sf::Sprite>& getLayers(): Gets the layer vector.
+---
 
-Components.h
-Summary
-Defines various components for entities in the game.
+## 🎮 Gameplay and Controls
 
-Classes
-Component: Base class with a boolean has to determine existence.
-CTransform: Handles transformations and translations.
-Vec2 pos: Position vector.
-Vec2 prevPos: Previous position vector.
-Vec2 velocity: Velocity vector.
 
-CInput: Handles player input.
-bool up, bool right, bool left, bool canJump.
+### Game Objective
+The primary goal is to jump from platform to platform to achieve the highest possible score without falling. The game is designed to be endlessly looping.
 
-CBoundingBox: Defines the hitbox.
-Vec2 size, Vec2 halfSize.
+### Controls
 
-CAnimation: Defines entity animation.
-Animation animation, bool repeat.
+Players can choose between two control settings, adjustable in the settings menu:
 
-CGravity: Defines gravity for entities.
-float gravity.
+* **Arrow Keys**
+* **WASD**
 
-CState: Defines the state of the player (e.g., jumping, moving).
-std::string state.
+In the menu system, controls are:
+* **Up/Down** (or **W/S**) to move through options
+* **Enter** to select an option.
+* **Esc** to return to the previous menu or exit the pause/death menu.
+* **R** to restart the game from the death/pause menu.
+* **P** to pause the game.
 
-CKill: Indicates if an entity can kill the player.
+### Obstacles and Challenges
 
-CMove: Indicates if an entity can move.
+The game features platforms that serve as obstacles:
 
-Entity.h
-Summary
-Defines an entity and its components.
+* **Static Platforms with Spikes:** If the player falls on one of these, they die instantly.
+* **Moving Platforms with Spikes:** These move unpredictably, and touching them kills the player.
 
-Members
 
-ComponentTuple m_components: Tuple of all components.
-std::string m_tag: Tag associated with the entity (e.g., enemy, tile).
-bool m_active: Indicates if the entity is active.
-size_t m_id: Unique identifier for the entity.
-Methods
-Entity(const size_t& id, const std::string& tag): Private constructor.
-size_t id(): Returns the entity's ID.
-bool isActive(): Returns if the entity is active.
-const std::string& tag(): Returns the entity's tag.
-void destroy(): Destroys the entity.
-template <typename T, typename... TArgs> T& addComponent(TArgs&&... mArgs): Adds a component to the entity.
-template <class T> bool hasComponent(): Checks if the entity has a specific component.
-template <typename T> T& getComponent(): Gets a specific component.
-template <class T> void removeComponent(): Removes a specific component.
+---
 
-EntityManager.h
-Summary
-Handles all entities in the game.
+## 🖼️ User Interface & Visuals
 
-Members
-EntityVec m_entities: Vector of entities.
-EntityVec m_toAdd: Vector of entities to be added next frame.
-EntityMap m_entityMap: Map of entities by tag.
-size_t m_totalEntities: Total number of entities.
 
-Methods
-void removeDeadEntities(EntityVec& vec): Removes dead entities.
-void init(): Initializes the entity manager.
-void update(): Updates the entity manager, adding and removing entities.
-std::shared_ptr<Entity> addEntity(const std::string& tag): Adds a new entity.
-EntityVec& getEntities(): Returns all entities.
-EntityVec& getEntities(const std::string& tag): Returns entities by tag.
+* **Menu System:** Features a Main Menu with options to **Start the game**, visit the **Shop**, or access **Settings**.
+* **In-Game Shop:** Allows players to purchase and change their character's skin using coins collected during gameplay. The default skin is free.
+* **Settings Menu:** Provides options to **Adjust the game volume**, **Enable or disable background music** (character sound effects remain if music is off), and **Change the control settings** (Arrow Keys or WASD).
+* **Score and Progress:** The score is constantly updated as the player progresses. Upon losing, the highest score is displayed, encouraging players to beat their record.
 
-GameEngine.h
-Summary
-The main game engine class.
+---
 
-Members
-sf::RenderWindow m_window: Game window.
-Assets m_assets: Game assets.
-std::string m_currentScene: Current scene identifier.
-SceneMap m_sceneMap: Map of scenes.
-size_t m_coins, float m_volume, size_t m_highestScore: Game configurations.
-bool m_music, bool m_wasd: Game settings.
-bool m_running: Indicates if the game is running.
-sf::Music* m_currentMusic: Pointer to current music track.
+## 🛠️ Development & Credits
 
-Methods
-void init(const std::string& path): Loads assets.
-void update(): Checks user input and updates the scene.
-void sUserInput(): Registers and checks user input.
-std::shared_ptr<Scene> currentScene(): Returns the current scene.
-void changeScene(const std::string&, std::shared_ptr<Scene> scene, bool endCurrentScene): Changes the scene.
-void run(): Main game loop.
-void quit(): Quits the game.
-Assets& getAssets(): Returns a reference to the assets.
-sf::RenderWindow& window(): Returns a reference to the window.
-bool isRunning(): Returns if the game is running.
-size_t getCoins(), float getVolume(), size_t getHighestScore(): Gets configurations.
-bool getMusic(), bool getWASD(): Gets settings.
-void setCoins(size_t coins), void setVolume(float volume), void setHighestScore(size_t highestScore): Sets configurations.
-void setMusic(bool music), void setWASD(bool wasd): Sets settings.
-void startMusic(const std::string& musicName): Starts playing music.
-void stopMusic(): Stops the music.
-void setMusicState(bool musicOn): Sets music state.
-void switchToMusic(const std::string& musicName): Switches to a different music track.
+This project was a collaborative effort leveraging advanced game development techniques.
 
-Physics.h
-Summary
-Handles collision detection.
+### Core Technologies
 
-Methods
-Vec2 GetOverlap(std::shared_ptr<Entity> a, std::shared_ptr<Entity> b): Calculates overlap between two rectangles.
-Vec2 GetPreviousOverlap(std::shared_ptr<Entity> a, std::shared_ptr<Entity> b): Calculates overlap from the previous frame.
-
-Scene.h
-Summary
-Defines a game scene.
-
-Members
-GameEngine& m_game: Reference to the main game engine.
-EntityManager m_entityManager: Manages entities.
-size_t m_currentFrame: Frame counter.
-bool m_paused: Indicates if the scene is paused.
-
-Methods
-Scene(GameEngine& gameEngine): Constructor.
-EntityManager& getEntityManager(): Returns the entity manager.
-GameEngine& game(): Returns a reference to the game engine.
-bool isPaused() const: Returns if the scene is paused.
-void setPaused(bool paused): Sets the paused state.
-size_t currentFrame() const: Returns the current frame.
-void simulate(const size_t frames): Simulates a number of frames.
-void doAction(Action& action): Defines action behavior.
-virtual void update(): Updates the scene.
-virtual void onEnd(): Called when the scene ends.
-
-Vec2.h
-Summary
-Defines a 2D vector.
-
-Members
-float x, float y: Coordinates.
-
-Methods
-Vec2(): Default constructor.
-Vec2(float xin, float yin): Constructor.
-Vec2 operator + (const Vec2& v) const, Vec2 operator - (const Vec2& v) const: Overloaded operators.
-Vec2 operator / (float val) const, Vec2 operator * (float val) const: Overloaded operators.
-void operator += (const Vec2& v), void operator -= (const Vec2& v): Overloaded operators.
-void operator *= (float val), void operator /= (float val): Overloaded operators.
-bool operator == (const Vec2& v) const, bool operator != (const Vec2& v) const: Overloaded operators.
-float dist(const Vec2& v) const: Distance to another vector.
-float length() const: Vector length.
-Vec2 normalized() const: Normalizes the vector.
-void normalize(): Normalizes the vector.
-Vec2 abs() const: Absolute value of the vector.
+* **Language:** C++ 
+* **Library:** SFML (Simple and Fast Multimedia Library) 
+* **Architecture:** Entity-Component System (ECS) 
+* **Development Environment:** Visual Studio Community 2022 
+* **Dependency Manager:** vcpkg 
