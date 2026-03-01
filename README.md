@@ -1,12 +1,12 @@
 # Documentation needs to be updated
 ## PDF Report on this project (which includes demonstrations) is provided [in the project section of my LinkedIn profile](https://www.linkedin.com/in/fernando-rojaschoco/)
-## 🚀 Skylimit: An Endless 2D Pixel-Art Jumper
+## Skylimit: An Endless 2D Pixel-Art Jumper
 
 Skylimit is a challenging and engaging 2D Pixel-Art endless jumper game where players must continuously jump from platform to platform, ascending to achieve the highest possible score. Inspired by popular titles like *Doodle Jump*, the game offers a smooth and responsive gameplay experience through performance optimization in C++.
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 * **Endless Jumper Gameplay:** Players control a character that auto-jumps, soaring over procedurally generated platforms while avoiding obstacles.
 * **Progressive Difficulty:** The challenge increases as the player advances, with features like progressively spaced platforms and the introduction of moving and spiked platforms.
@@ -17,7 +17,7 @@ Skylimit is a challenging and engaging 2D Pixel-Art endless jumper game where pl
 
 ---
 
-## 💻 Technical Architecture
+## Technical Architecture
 
 The core architecture of Skylimit is based on the **Entity-Component System (ECS)** pattern, separating object identity, data, and logic.
 
@@ -53,7 +53,7 @@ Components are derived from the base `Component` class and characterize an entit
 
 ---
 
-## 🎮 Gameplay and Controls
+## Gameplay and Controls
 
 
 ### Game Objective
@@ -83,7 +83,7 @@ The game features platforms that serve as obstacles:
 
 ---
 
-## 🖼️ User Interface & Visuals
+## User Interface & Visuals
 
 
 * **Menu System:** Features a Main Menu with options to **Start the game**, visit the **Shop**, or access **Settings**.
@@ -93,7 +93,7 @@ The game features platforms that serve as obstacles:
 
 ---
 
-## 🛠️ Development & Credits
+## Development & Credits
 
 This project was a collaborative effort leveraging advanced game development techniques.
 
